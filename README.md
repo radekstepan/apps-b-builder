@@ -1,32 +1,15 @@
-#component #400
+#apps-b-builder
 
-Shows a table of matches of an InterMine ID Resolution Job.
+A component.io based builder for making JS packages.
 
-##Quickstart
-
-Copy the two built files in the `/build` directory or launch the example in your browser:
+##Quick Start
 
 ```bash
-$ npm install
-$ PORT=1234 node index.js
+$ npm install apps-b-builder
 ```
 
-##Build
-
-Install deps:
+Then specify the input and output path to build:
 
 ```bash
-$ npm install
-```
-
-Install components:
-
-```bash
-$ (cd src/app ; ../../node_modules/.bin/component install)
-```
-
-Re-build the sources:
-
-```bash
-$ coffee src/build.coffee
+$ apps-b-builder ./src ./build
 ```
