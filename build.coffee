@@ -8,11 +8,10 @@ path     = require 'path'
 fs       = _.extend {}, require('fs'), require('fs-extra')
 log      = require 'node-logging'
 
-module.exports = (cb) ->
-    # Get the args.
-    return cb 'Incorrect number of params' if process.argv.length isnt 4
-    io = _.map (_.toArray(process.argv)[2...]), (rel) ->
-        path.resolve process.cwd(), rel
+module.exports = (io, cb) ->
+    # Resolve paths.
+    return cb 'Incorrect number of params' if io.length isnt 2
+    io = _.map io, (rel) -> path.resolve process.cwd(), rel
 
     # Check the dirs exist.
     async.each io, (loc, cb) ->
@@ -55,7 +54,7 @@ module.exports = (cb) ->
                 return cb(null) unless json.dependencies
 
                 # Run them installs in series.
-                async.eachSeries ( a + '@' + b for a, b of json.dependencies ), (dep, cb) ->
+                async.eachSeries ( "#{n}@#{v}" for n, v of json.dependencies ), (dep, cb) ->
                     exec "#{dir}/node_modules/.bin/component-install #{dep} --out #{input}/components", (err, stdout, stderr) ->
                         return cb err if err
                         return cb stderr if stderr

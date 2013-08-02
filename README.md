@@ -11,5 +11,13 @@ $ sudo npm install apps-b-builder -g
 Then specify the input and output path to build:
 
 ```bash
-$ apps-b-builder ./src/ ./build/
+# relative to current working directory
+$ apps-b build ./src/ ./build/
+```
+
+If you wish to serve a particular directory (an example):
+
+```bash
+# relative to current working directory
+$ apps-b serve ./example
 ```

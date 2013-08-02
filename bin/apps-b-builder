@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-var log = require('node-logging');
-require('coffee-script');
-// You can pragmatically require as well.
-require('../builder.coffee').call(null, function(err) {
-    if (err) throw err;
-    log.inf('Done'.bold);
-});

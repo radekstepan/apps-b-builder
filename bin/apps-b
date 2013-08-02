@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+var log = require('node-logging');
+require('coffee-script');
+// Get them args.
+var args = process.argv.slice(2);
+if (args.length < 2) throw 'Incorrect number of params';
+var command;
+switch (command = args[0]) {
+    case 'build':
+        // Can use programatically as well.
+        return require('../build.coffee').call(null, args.slice(1), function(err) {
+            if (err) throw err;
+            log.inf('Done'.bold);
+        });
+    case 'serve':
+        return require('../serve.coffee').call(null, args[1], function(err, port) {
+            if (err) throw err;
+            log.inf(port.bold);
+        });
+    default:
+        throw 'Unknown command ' + command;
+}
