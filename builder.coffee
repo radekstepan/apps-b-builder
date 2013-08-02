@@ -7,7 +7,6 @@ async    = require 'async'
 path     = require 'path'
 fs       = _.extend {}, require('fs'), require('fs-extra')
 log      = require 'node-logging'
-{ md5 }  = require 'blueimp-md5'
 
 module.exports = (cb) ->
     # Get the args.
