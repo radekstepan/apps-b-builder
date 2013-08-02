@@ -1,6 +1,6 @@
 {
     "name": "apps-b-builder",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A component.io based builder for making JS packages",
     "dependencies": {
         "connect": "~2.8.4",

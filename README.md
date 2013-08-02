@@ -1,11 +1,11 @@
 #apps-b-builder
 
-A component.io based builder for making JS packages.
+A [component.io](https://github.com/component/component) based builder for making JS packages.
 
 ##Quick Start
 
 ```bash
-$ npm install apps-b-builder
+$ sudo npm install apps-b-builder -g
 ```
 
 Then specify the input and output path to build:
