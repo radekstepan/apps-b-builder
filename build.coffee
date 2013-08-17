@@ -104,7 +104,8 @@ wrapper = (hook, extension, handler) ->
                 
                 # Switcheroo.
                 name = path.basename(file, extension) + convertTo[hook]
-                pkg.addFile hook, name, out
+                dir = '' if (dir = path.dirname(file) + '/') is './'
+                pkg.addFile hook, dir + name, out
                 pkg.removeFile hook, file
                 # We done.
                 cb null
