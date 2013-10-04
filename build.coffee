@@ -34,9 +34,17 @@ module.exports = (io, cb) ->
             # Load them handlers from our /types.
             handlers = {}
             _.each files, (file) ->
-                [ hook, extension, handler ] = exported = require dir + '/types/' + file
+                [ hook, extensions, handler ] = exported = require dir + '/types/' + file
                 handlers[hook] ?= {}
-                handlers[hook][extension] = wrapper.apply @, exported
+
+                switch
+                    # An Array.
+                    when _.isArray(extensions)
+                        ( handlers[hook][ext] = wrapper.apply(@, exported) for ext in extensions )
+                    
+                    # A String.
+                    when _.isString(extensions)
+                        handlers[hook][extensions] = wrapper.apply @, exported
 
             # Init a new builder.
             builder = new Builder input
