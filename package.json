@@ -1,6 +1,6 @@
 {
     "name": "apps-b-builder",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "description": "A component.io based builder for making JS packages",
     "dependencies": {
         "coffee-script": "~1.6.2",
