@@ -5,8 +5,12 @@ Builder = require 'component-builder'
 async    = require 'async'
 { exec } = require 'child_process'
 path     = require 'path'
+os       = require 'os'
 fs       = _.extend {}, require('fs'), require('fs-extra')
 log      = require 'node-logging'
+
+# Determine quotes for escaping paths.
+quotes = if os.type() is "Windows_NT" then "\"" else "'"
 
 module.exports = (io, cb) ->
     # Resolve paths.
@@ -26,6 +30,7 @@ module.exports = (io, cb) ->
 
         # Build our handlers based on types.
         dir = __dirname
+
         fs.readdir dir + '/types', (err, files) ->
             return cb err if err
 
@@ -41,7 +46,7 @@ module.exports = (io, cb) ->
                     # An Array.
                     when _.isArray(extensions)
                         ( handlers[hook][ext] = wrapper.apply(@, exported) for ext in extensions )
-                    
+
                     # A String.
                     when _.isString(extensions)
                         handlers[hook][extensions] = wrapper.apply @, exported
@@ -63,7 +68,7 @@ module.exports = (io, cb) ->
 
                 # Run them installs in series.
                 async.eachSeries ( "#{n}@#{v}" for n, v of json.dependencies ), (dep, cb) ->
-                    exec "#{dir}/node_modules/.bin/component-install #{dep} --out #{input}/components", (err, stdout, stderr) ->
+                    exec "#{quotes}#{dir}/node_modules/.bin/component-install#{quotes} #{dep} --out #{quotes}#{input}/components#{quotes}", (err, stdout, stderr) ->
                         return cb err if err
                         return cb stderr if stderr
                         cb null
@@ -109,7 +114,7 @@ wrapper = (hook, extension, handler) ->
                 if err
                     log.bad file
                     return cb err.message
-                
+
                 # Switcheroo.
                 name = path.basename(file, extension) + convertTo[hook]
                 dir = '' if (dir = path.dirname(file) + '/') is './'
@@ -125,7 +130,7 @@ hooker = (handlers) ->
             builder.hook "before #{hook}", (pkg, cb) ->
                 # Empty?
                 return cb(null) unless (files = pkg.config[hook] or []).length
-                
+
                 # Map to handlers.
                 files = _.map files, (file) ->
                     (cb) ->
@@ -134,7 +139,7 @@ hooker = (handlers) ->
 
                         return fn(pkg, file, cb) if fn = obj[path.extname(file)]
                         cb null
-                
+
                 # And exec in series (why!?).
                 async.series files, (err) ->
                     cb err
@@ -147,7 +152,7 @@ minify  =
         catch err
             return cb err
         cb null, clean
-    
+
     css: (src, cb) ->
         try
             clean = require('clean-css').process src
