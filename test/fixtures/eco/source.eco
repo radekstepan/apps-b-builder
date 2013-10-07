@@ -1,0 +1,5 @@
+<ul>
+    <% for k in @arr: %>
+        <li><%- k %></li>
+    <% end %>
+</ul>

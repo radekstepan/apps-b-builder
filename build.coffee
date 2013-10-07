@@ -25,6 +25,7 @@ module.exports = (io, cb) ->
                 return cb err if err
                 return cb "#{loc} is not a directory" unless stats.isDirectory()
                 cb null
+    
     , (err) ->
         return cb err if err
 

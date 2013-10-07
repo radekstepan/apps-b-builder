@@ -8,7 +8,9 @@ fs          = require 'fs'
 # Define all them tests here.
 tests =
     'coffeescript': 'js'
+    'eco': 'js'
     'litcoffee': 'js'
+    'stylus': 'css'
 
 # Proxy these.
 _fs =
@@ -38,10 +40,12 @@ runner = (lang, type, done) ->
 
     build [ fixture, 'test' ], (err) ->
         assert.ifError err
-        fs.readFile fixture + '/expected.' + type, 'utf-8', (err, expected) ->
+
+        fs.readFile "#{fixture}/expected.#{type}", 'utf-8', (err, expected) ->
             assert.ifError err
             assert.equal actual, expected
             do done
 
 # Export them tests.
-( exports[k] = _.partialRight runner, k, v for k, v of tests )
+for k, v of tests then do (k, v) ->
+    exports[k] = (done) -> runner k, v, done
