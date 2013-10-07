@@ -9,6 +9,7 @@ fs          = require 'fs'
 tests =
     'coffeescript': 'js'
     'eco': 'js'
+    'js': 'js'
     'litcoffee': 'js'
     'stylus': 'css'
 
