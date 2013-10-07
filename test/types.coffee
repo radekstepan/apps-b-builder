@@ -8,6 +8,7 @@ fs          = require 'fs'
 # Define all them tests here.
 tests =
     'coffeescript': 'js'
+    'css': 'css'
     'eco': 'js'
     'js': 'js'
     'litcoffee': 'js'
