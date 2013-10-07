@@ -2,7 +2,7 @@
 
 A [component.io](https://github.com/component/component) based builder for making modular JS packages.
 
-[ ![Codeship Status for intermine/apps-b-builder](https://www.codeship.io/projects/51f46370-117b-0131-185b-420f81acb815/status?branch=master)](https://www.codeship.io/projects/7793)
+[ ![Codeship Status for intermine/apps-b-builder](https://www.codeship.io/projects/5416ca40-118b-0131-48c9-420f81acb815/status?branch=master)](https://www.codeship.io/projects/7802)
 
 ##Quick Start
 
