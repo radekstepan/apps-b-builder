@@ -6,7 +6,7 @@ async    = require 'async'
 { exec } = require 'child_process'
 path     = require 'path'
 os       = require 'os'
-fs       = _.extend {}, require('fs'), require('fs-extra')
+fs       = require 'fs'
 log      = require 'node-logging'
 
 # Determine quotes for escaping paths.
@@ -59,7 +59,12 @@ module.exports = (io, cb) ->
 
             # Read the `component.json` file.
             async.waterfall [ (cb) ->
-                fs.readJson input + '/component.json', cb
+                fs.readFile input + '/component.json', 'utf-8', (err, file) ->
+                    try
+                        cb null, JSON.parse(file)
+                    catch e
+                        cb e
+                    
 
             # Install deps?
             (json, cb) ->
@@ -83,11 +88,7 @@ module.exports = (io, cb) ->
             # ... and they will come!
             , (res, cb) ->
                 write = (where, what, cb) ->
-                    return fs.writeFile "#{output}/build.#{where}", what, cb
-                    # TODO: switch on minify again (or lint individual JS resources?).
-                    minify[where] what, (err, out) ->
-                        return cb err if err
-                        fs.writeFile "#{output}/build.#{where}", out, cb
+                    fs.writeFile "#{output}/build.#{where}", what, cb
 
                 async.parallel [
                     _.partial write, 'js', res.require + res.js
@@ -143,19 +144,3 @@ hooker = (handlers) ->
                 # And exec in series (why!?).
                 async.series files, (err) ->
                     cb err
-
-# Minifiers.
-minify  =
-    js: (src, cb) ->
-        try
-            clean = (require('uglify-js').minify(src, 'fromString': yes)).code
-        catch err
-            return cb err
-        cb null, clean
-
-    css: (src, cb) ->
-        try
-            clean = require('clean-css').process src
-        catch err
-            return cb err
-        cb null, clean
