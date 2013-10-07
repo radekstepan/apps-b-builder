@@ -52,8 +52,17 @@ module.exports = (io, cb) ->
                     when _.isString(extensions)
                         handlers[hook][extensions] = wrapper.apply @, exported
 
+            # Capture Builder errors.
+            class Proxy extends Builder
+
+                json: ->
+                    try
+                        Builder::json.apply @, arguments
+                    catch e
+                        return cb e.message
+
             # Init a new builder.
-            builder = new Builder input
+            builder = new Proxy input
 
             # Use our custom hooks.
             builder.use hooker handlers
