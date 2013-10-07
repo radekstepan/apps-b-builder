@@ -57,7 +57,7 @@ module.exports = (io, cb) ->
 
                 json: ->
                     try
-                        Builder::json.apply @, arguments
+                        Builder::json.call @, arguments
                     catch e
                         return cb e.message
 
