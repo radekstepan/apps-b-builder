@@ -77,11 +77,11 @@ module.exports = (io, cb) ->
 
             # Install deps, filter config.?
             (json, cb) ->
-                # Explicitely pass the config skipping build files if present.
-                for key in [ 'scripts', 'styles' ]
-                    json[key] ?= []
-                    json[key] = _.filter json[key], (file) ->
-                        not new RegExp('build\.[js|css]').test file
+                # # Explicitely pass the config skipping build files if present.
+                # for key in [ 'scripts', 'styles' ]
+                #     json[key] ?= []
+                #     json[key] = _.filter json[key], (file) ->
+                #         not new RegExp('build\.[js|css]').test file
 
                 # Override the default load.
                 builder.config = json
@@ -95,6 +95,12 @@ module.exports = (io, cb) ->
                         return cb err if err
                         return cb stderr if stderr
                         cb null
+                , cb
+
+            # Clear build files (avoid building the build).
+            , (cb) ->
+                async.each [ 'js', 'css' ], (where, cb) ->
+                    fs.truncate "#{output}/build.#{where}", 0, cb
                 , cb
 
             # Build it...

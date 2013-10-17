@@ -4,6 +4,7 @@ assert      = require 'assert'
 { resolve } = require 'path'
 fs          = require 'fs'
 async       = require 'async'
+_           = require 'lodash'
 
 # Proxy these.
 _fs =
@@ -13,6 +14,8 @@ _fs =
         cb null, { 'isDirectory': -> yes }
     'readdir': fs.readdir
     'readFile': fs.readFile
+    'writeFile': fs.writeFile
+    'truncate': fs.truncate
 
 # The builder under test.
 build = proxy resolve(__dirname, '../build.coffee'),
@@ -20,28 +23,27 @@ build = proxy resolve(__dirname, '../build.coffee'),
 
 module.exports =
     'ignore: build files': (done) ->
-
         fixture = 'test/fixtures/ignore/'
+        
+        # Read the builds live; no cache.
+        get = (cb) ->
+            async.map [ "#{fixture}/build.js", "#{fixture}/build.css" ], (path, cb) ->
+                fs.readFile path, 'utf-8', cb
+            , cb
 
-        async.map [ "#{fixture}/build.js", "#{fixture}/build.css" ], (path, cb) ->
-            fs.readFile path, 'utf-8', cb
-        , (err, results) ->
+        # Expected.
+        get (err, expected) ->
             assert.ifError err
             
-            # Test against these.
-            [ js, css ] = results
-
-            expected = { js, css }
-
-            # Check against this.
-            i = 0
-            _fs.writeFile = (path, a, cb) ->
-                i++
-                # The same?
-                assert.equal a, expected[path.split('.').pop()]
-                # Exit?
-                do done if i is 2
-
-            # Run the build.
+            # Run the build (will clear the builds).
             build [ fixture, fixture ], (err) ->
                 assert.ifError err
+
+                # Check again.
+                get (err, actual) ->
+                    assert.ifError err
+
+                    _.each expected, (item, i) ->
+                        assert.equal item, actual[i]
+
+                    do done

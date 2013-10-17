@@ -24,6 +24,7 @@ _fs =
         cb null
     'readdir': fs.readdir
     'readFile': fs.readFile
+    'truncate': (loc, len, cb) -> cb null
 
 # The builder under test.
 build = proxy resolve(__dirname, '../build.coffee'),
