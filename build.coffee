@@ -110,8 +110,8 @@ module.exports = (io, cb) ->
 
 # What are the targets we are coverting to?
 convertTo =
-    scripts: '.js'
-    styles: '.css'
+    'scripts': '.js'
+    'styles':  '.css'
 
 # Load a file, handle it, switch it, go home.
 wrapper = (hook, extension, handler) ->
@@ -140,7 +140,7 @@ hooker = (handlers) ->
         for hook, obj of handlers then do (hook, obj) ->
             builder.hook "before #{hook}", (pkg, cb) ->
                 # Empty?
-                return cb(null) unless (files = pkg.config[hook] or []).length
+                return cb(null) unless (files = pkg.config['apps-b'] or []).length
 
                 # Map to handlers.
                 files = _.map files, (file) ->

@@ -199,6 +199,9 @@ require.relative = function(parent) {
 
   return localRequire;
 };
+require.register("app/nocompile.js", function(exports, require, module){
+module.exports = function() { alert(5) };
+});
 require.register("app/source.js", function(exports, require, module){
 module.exports = function() {
   var A, B, _ref;

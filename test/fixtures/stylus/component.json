@@ -1,6 +1,9 @@
 {
     "name": "app",
     "styles": [
+        "nocompile.css"
+    ],
+    "apps-b": [
         "source.styl"
     ]
 }

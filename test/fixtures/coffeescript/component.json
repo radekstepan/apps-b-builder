@@ -1,6 +1,9 @@
 {
     "name": "app",
     "scripts": [
+        "nocompile.js"
+    ],
+    "apps-b": [
         "source.coffee"
     ]
 }

@@ -25,24 +25,34 @@ A component consists of one `component.json` config file and one or more [source
 
 ###Component config file
 
-Your config file needs to contain links to all files you want to compile. Compile to JS/CSS go into the `scripts`/`styles` section respectively. The `dependencies` map contains [links to other components](https://github.com/component/component/wiki/Components).
+To write a component config file in JSON refer to the [standard](https://github.com/component/component/wiki/Spec). For custom types that `apps-b` handles enlist these source files in the `apps-b` section. This way our component can be installed by the default installer yet our builder know where to look for custom source files.
 
-```json
+Remember, only source files (not JS or CSS) go to the `apps-b` section.
+
+```javascript
 {
     "name": "app",
-    "main": "app.js",
+    // Which file do we require as the main file.
+    "main": "build/build.js",
     "version": "1.0.0",
+    // Other components.
     "dependencies": {
         "visionmedia/superagent": "*",
         "necolas/normalize.css": "*",
         "component/marked": "*"
     },
+    // Copy these JS files when installing the component.
     "scripts": [
+        "build/build.js"
+    ],
+    // Copy these CSS files when installing the component.
+    "styles": [
+        "styles/fonts.css"
+    ],
+    // Custom sources for our builder.
+    "apps-b": [
         "app.coffee",
         "template.eco",
-    ],
-    "styles": [
-        "styles/fonts.css",
         "styles/app.styl"
     ]
 }
