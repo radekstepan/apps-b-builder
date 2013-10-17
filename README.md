@@ -33,7 +33,7 @@ Remember, only source files (not JS or CSS) go to the `apps-b` section.
 {
     "name": "app",
     // Which file do we require as the main file.
-    "main": "build/build.js",
+    "main": "app.js",
     "version": "1.0.0",
     // Other components.
     "dependencies": {

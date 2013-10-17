@@ -1,0 +1,13 @@
+{
+    "name": "app",
+    "scripts": [
+        "build.js"
+    ],
+    "styles": [
+        "build.css"
+    ],
+    "apps-b": [
+        "source.coffee",
+        "source.styl"
+    ]
+}

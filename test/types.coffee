@@ -38,7 +38,7 @@ runner = (lang, type, done) ->
         actual = output if path.match new RegExp 'build.' + type
         cb null
     
-    fixture = 'test/fixtures/' + lang
+    fixture = 'test/fixtures/types/' + lang
 
     build [ fixture, 'test' ], (err) ->
         assert.ifError err
@@ -50,4 +50,4 @@ runner = (lang, type, done) ->
 
 # Export them tests.
 for k, v of tests then do (k, v) ->
-    exports[k] = (done) -> runner k, v, done
+    exports['types: ' + k] = (done) -> runner k, v, done

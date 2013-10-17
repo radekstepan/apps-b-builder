@@ -74,10 +74,18 @@ module.exports = (io, cb) ->
                         cb null, JSON.parse(file)
                     catch e
                         cb e
-                    
 
-            # Install deps?
+            # Install deps, filter config.?
             (json, cb) ->
+                # Explicitely pass the config skipping build files if present.
+                for key in [ 'scripts', 'styles' ]
+                    json[key] ?= []
+                    json[key] = _.filter json[key], (file) ->
+                        not new RegExp('build\.[js|css]').test file
+
+                # Override the default load.
+                builder.config = json
+
                 # Why you need deps? Go native... :)
                 return cb(null) unless json.dependencies
 
