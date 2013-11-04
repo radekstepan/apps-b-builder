@@ -154,7 +154,7 @@ hooker = (handlers) ->
         for hook, obj of handlers then do (hook, obj) ->
             builder.hook "before #{hook}", (pkg, cb) ->
                 # Empty?
-                return cb(null) unless (files = pkg.config['apps-b'] or []).length
+                return cb(null) unless (files = pkg.config[hook] or []).length
 
                 # Map to handlers.
                 files = _.map files, (file) ->
@@ -162,7 +162,10 @@ hooker = (handlers) ->
                         cb = _.wrap cb, (fn, err) ->
                             fn err
 
+                        # Can build.
                         return fn(pkg, file, cb) if fn = obj[path.extname(file)]
+                        
+                        # Normal files.
                         cb null
 
                 # And exec in series (why!?).

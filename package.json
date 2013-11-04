@@ -1,6 +1,6 @@
 {
     "name": "apps-b-builder",
-    "version": "0.4.1",
+    "version": "0.4.3",
     "description": "A component.io based builder for making modular JS packages",
     "dependencies": {
         "component": "0.17.6",

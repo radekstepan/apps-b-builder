@@ -199,9 +199,6 @@ require.relative = function(parent) {
 
   return localRequire;
 };
-require.register("app/build.js", function(exports, require, module){
-
-});
 require.register("app/source.js", function(exports, require, module){
 module.exports = function() {
   var A, B, _ref;

@@ -1,6 +1,6 @@
 {
     "name": "app",
-    "apps-b": [
+    "scripts": [
         "source.eco"
     ]
 }
